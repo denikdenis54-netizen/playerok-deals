@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: playerok-deals
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: WEBAPP_URL
+        sync: false
+      - key: MANAGER_USERNAME
+        sync: false
+      - key: ESCROW_PROVIDER
+        value: mock
+      - key: LOG_LEVEL
+        value: INFO
+
+# ВАЖНО
+# 1) Root Directory оставь ПУСТЫМ. Если указать папку, Render будет искать
+#    Dockerfile внутри неё и не найдёт — сборка упадёт.
+# 2) PORT в этот файл НЕ пиши. Render задаёт его сам, а Dockerfile
+#    уже содержит ENV PORT=8080. Дублирование ломало сборку.
+# 3) Значения переменных (BOT_TOKEN, WEBAPP_URL, MANAGER_USERNAME) в Render
+#    задаются вручную в разделе Environment — здесь для них sync: false.
+# 4) WEBAPP_URL заполняется ПОСЛЕ первого деплоя: он равен адресу сервиса.

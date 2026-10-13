@@ -1,0 +1,1 @@
+"""Playerok Deals — Telegram Mini App для безопасных сделок."""

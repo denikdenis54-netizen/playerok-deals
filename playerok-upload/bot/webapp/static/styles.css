@@ -1,0 +1,557 @@
+/* =========================================================
+   Playerok — тёмная тема
+   ========================================================= */
+:root{
+  --bg:#0b0d14;
+  --bg-soft:#11141d;
+  --card:#151926;
+  --card-2:#1b2030;
+  --line:#232838;
+  --text:#eef1f7;
+  --muted:#8b93a7;
+  --primary:#3b82f6;
+  --primary-2:#60a5fa;
+  --accent:#ff8a3d;
+  --accent-2:#ff6b6b;
+  --ok:#22c55e;
+  --radius:16px;
+  --tg-vh:100vh;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.45;
+  padding-bottom:calc(70px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+
+button{font-family:inherit}
+
+/* ---------- Шапка ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+  background:rgba(11,13,20,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.brand-mark{font-size:20px;line-height:1}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:-.01em}
+
+.search{
+  flex:1 1 auto;min-width:0;
+  display:flex;align-items:center;gap:8px;
+  height:38px;padding:0 12px;
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  border-radius:999px;
+}
+.search svg{width:17px;height:17px;fill:none;stroke:var(--muted);stroke-width:2;flex:0 0 auto}
+.search input{
+  flex:1;min-width:0;border:0;background:none;outline:none;
+  color:var(--text);font-size:14px;
+}
+.search input::placeholder{color:var(--muted)}
+
+.topbar-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.top-btn{
+  width:36px;height:36px;padding:0;
+  display:grid;place-items:center;
+  background:var(--bg-soft);border:1px solid var(--line);
+  border-radius:12px;color:var(--muted);cursor:pointer;
+  transition:transform .12s ease,background .15s ease,color .15s ease;
+}
+.top-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.top-btn:active{transform:scale(.92)}
+.top-btn.is-accent{background:var(--primary);border-color:var(--primary);color:#fff}
+.top-avatar{
+  width:24px;height:24px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#a855f7,#6366f1);
+  color:#fff;font-size:11px;font-weight:800;
+}
+
+/* ---------- Экраны ---------- */
+#screens{position:relative;z-index:2}
+.screen{display:none;padding:16px 14px 8px}
+.screen.is-active{display:block;animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.title{margin:4px 0 14px;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.subtitle{margin:18px 0 12px;font-size:16px;font-weight:800}
+.subtitle.center{text-align:center}
+.muted{color:var(--muted)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+
+/* ---------- Баннер-слайдер ---------- */
+.banner-slider{
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+}
+.banner-track{
+  display:flex;
+  transition:transform .35s cubic-bezier(.2,.8,.3,1);
+}
+.banner{
+  position:relative;overflow:hidden;
+  flex:0 0 100%;width:100%;
+  padding:18px;
+  min-height:104px;
+  display:flex;align-items:center;
+  background:linear-gradient(115deg,#1e6fd9 0%,#2b8ae8 45%,#37b6f0 100%);
+}
+.banner-alt{background:linear-gradient(115deg,#5b3fd6 0%,#7c4de0 50%,#9b5de5 100%)}
+.banner-halloween{background:linear-gradient(115deg,#c2410c 0%,#ea580c 45%,#f59e0b 100%)}
+.banner::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 82% 20%,rgba(255,255,255,.20),transparent 42%),
+    radial-gradient(circle at 22% 78%,rgba(255,220,120,.16),transparent 46%);
+  pointer-events:none;
+}
+.banner-web{
+  position:absolute;top:0;right:0;width:96px;height:100%;
+  color:rgba(255,255,255,.20);z-index:1;
+}
+.banner-inner{position:relative;z-index:2;min-width:0;flex:1 1 auto}
+/* Заголовок не должен заезжать под шар: резервируем под него место */
+.banner-title{
+  display:flex;align-items:center;gap:9px;
+  color:#fff;font-weight:800;font-size:18px;min-width:0;
+}
+.banner-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.banner-ic{
+  width:34px;height:34px;flex:0 0 auto;
+  border-radius:11px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.22);color:#fff;
+}
+.banner-ic svg{width:19px;height:19px;fill:currentColor}
+.banner-pumpkin{background:rgba(0,0,0,.16);font-size:19px}
+.banner-sub{
+  margin-top:7px;color:rgba(255,255,255,.92);
+  font-size:13px;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.banner-ball{
+  position:absolute;right:16px;top:50%;
+  transform:translateY(-50%);
+  width:62px;height:62px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.95);color:#2b8ae8;
+  z-index:2;flex:0 0 auto;
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.banner-alt .banner-ball{color:#7c4de0}
+.banner-halloween .banner-ball{color:#ea580c}
+.banner-ball svg{width:28px;height:28px;fill:currentColor}
+.banner-ball.banner-pumpkin{font-size:28px}
+
+.banner-dots{
+  position:absolute;left:0;right:0;bottom:9px;
+  display:flex;justify-content:center;gap:5px;z-index:3;
+}
+.banner-dot{
+  width:6px;height:6px;border-radius:50%;padding:0;
+  background:rgba(255,255,255,.45);cursor:pointer;
+}
+.banner-dot.is-active{background:#fff;width:18px;border-radius:3px}
+
+/* ---------- Категории ---------- */
+.cats{
+  display:flex;gap:4px;overflow-x:auto;
+  margin:16px -14px 14px;padding:0 14px;
+  border-bottom:1px solid var(--line);
+  scrollbar-width:none;
+}
+.cats::-webkit-scrollbar{display:none}
+.cat{
+  flex:0 0 auto;padding:10px 12px 12px;
+  background:none;border:0;border-bottom:2px solid transparent;
+  color:var(--muted);font-size:14px;font-weight:600;
+  white-space:nowrap;cursor:pointer;
+  transition:color .15s ease,border-color .15s ease;
+}
+.cat.is-active{color:var(--primary-2);border-bottom-color:var(--primary-2)}
+.cat:active{opacity:.7}
+
+/* ---------- Карточки ---------- */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px;
+}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0}
+.kv + .kv{border-top:1px solid var(--line)}
+.kv b{text-align:right}
+.sync-card{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.dot-live{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--ok);box-shadow:0 0 0 3px rgba(34,197,94,.16);
+}
+.rating-archived{
+  text-align:center;padding:14px 0 4px;
+  border-top:1px solid var(--line);margin-top:14px;
+}
+.rating-archived .rating-num{font-size:38px}
+.rating-archived .muted{font-size:13px;margin-top:6px}
+
+/* ---------- Список сделок (карточка товара) ---------- */
+.cards{display:flex;flex-direction:column;gap:12px}
+.list{display:flex;flex-direction:column;gap:10px}
+
+.deal{
+  display:flex;gap:12px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:12px;
+  cursor:pointer;
+  transition:transform .12s ease,border-color .15s ease;
+}
+.deal:active{transform:scale(.99);border-color:#2c3348}
+.deal-thumb{
+  width:74px;height:74px;flex:0 0 auto;
+  border-radius:14px;
+  display:grid;place-items:center;
+  font-size:30px;
+  background:linear-gradient(140deg,#3b2a12,#1a1206);
+  border:1px solid #3a2c14;
+}
+.deal-body{flex:1;min-width:0}
+.deal-title{
+  font-weight:800;font-size:15px;margin-bottom:8px;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+.deal-tiles{display:flex;gap:8px;margin-bottom:10px}
+.tile{
+  flex:1;min-width:0;
+  background:var(--card-2);border-radius:10px;padding:7px 10px;
+}
+.tile-k{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.tile-v{display:block;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.deal-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:10px;font-weight:700;padding:3px 7px;border-radius:7px;
+  background:rgba(168,85,247,.16);color:#c084fc;
+}
+.deal-rate{font-size:12px;color:var(--muted);white-space:nowrap}
+
+.hist-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:12px;cursor:pointer;
+}
+.hist-ok{
+  width:28px;height:28px;flex:0 0 auto;border-radius:9px;
+  display:grid;place-items:center;font-size:13px;font-weight:800;
+  background:rgba(34,197,94,.16);color:var(--ok);
+}
+.hist-body{flex:1;min-width:0}
+.hist-title{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist-meta{font-size:11px;color:var(--muted)}
+.hist-right{text-align:right;flex:0 0 auto}
+.hist-amt{font-weight:800;font-size:14px}
+
+/* ---------- Кнопки ---------- */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px 16px;
+  background:var(--card-2);color:var(--text);
+  border:1px solid var(--line);border-radius:13px;
+  font-size:15px;font-weight:700;cursor:pointer;
+  transition:transform .12s ease,background .15s ease;
+}
+.btn:active{transform:scale(.985)}
+.btn .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),#2563eb);
+  border-color:transparent;color:#fff;
+}
+.btn-accent{
+  background:linear-gradient(135deg,var(--accent),#f97316);
+  border-color:transparent;color:#fff;
+}
+.btn-block{margin-top:10px}
+.btn-block-close{margin-top:14px}
+.btn[disabled]{opacity:.55;pointer-events:none}
+.stack{display:flex;flex-direction:column;gap:10px}
+
+.icon-btn{
+  width:32px;height:32px;flex:0 0 auto;
+  display:grid;place-items:center;
+  background:var(--card-2);border:1px solid var(--line);
+  border-radius:10px;color:var(--muted);cursor:pointer;font-size:14px;
+}
+.back{
+  background:none;border:0;color:var(--primary-2);
+  font-size:14px;font-weight:700;cursor:pointer;padding:0 0 12px;
+}
+
+/* ---------- Поля ---------- */
+.input{
+  width:100%;padding:13px;
+  background:var(--card);color:var(--text);
+  border:1px solid var(--line);border-radius:12px;
+  font-size:16px;font-family:inherit;outline:none;
+  margin-bottom:12px;
+  appearance:none;
+}
+.input:focus{border-color:var(--primary)}
+textarea.input{resize:none;line-height:1.45}
+select.input{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238b93a7' stroke-width='2.5' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:38px;
+}
+.label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px}
+.hint{
+  font-size:12px;color:var(--muted);line-height:1.5;
+  background:var(--card-2);border-radius:11px;padding:11px;margin-bottom:12px;
+}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:10px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{
+  padding:9px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);
+  color:var(--text);font-size:13px;font-weight:700;cursor:pointer;
+}
+.chip.is-active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+.profile-head{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.profile-avatar{
+  width:56px;height:56px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#a855f7,#6366f1);
+  color:#fff;font-size:22px;font-weight:800;
+}
+
+/* ---------- Кошельки ---------- */
+.balances{display:flex;flex-direction:column;gap:8px}
+.balance-row{
+  display:flex;align-items:center;gap:11px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:13px;padding:11px 13px;
+}
+.balance-row.is-hidden{display:none}
+.balance-icon{
+  width:30px;height:30px;border-radius:9px;
+  display:grid;place-items:center;
+  color:#fff;font-size:13px;font-weight:800;flex:0 0 auto;
+}
+.balance-name{font-weight:700;font-size:14px;flex:1;min-width:0}
+.balance-val{font-weight:800;font-size:15px}
+.balance-snow{margin-left:6px;font-size:15px;vertical-align:-1px}
+.balance-row.is-frozen .balance-val{color:var(--primary-2)}
+.balance-row.is-frozen .balance-name::after{
+  content:'заморожено';display:block;font-size:10px;
+  color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;
+}
+
+/* ---------- Рейтинг ---------- */
+.rating{text-align:center;padding:10px 0 18px}
+.rating-num{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.stars{display:flex;justify-content:center;gap:6px;margin-top:10px;font-size:22px}
+.stars i{font-style:normal;color:var(--line)}
+.stars i.on{color:#f5a623}
+.stars-input{display:flex;gap:8px;margin-bottom:16px}
+.stars-input .star{
+  background:none;border:0;font-size:32px;line-height:1;cursor:pointer;
+  color:var(--line);padding:0;transition:transform .1s ease;
+}
+.stars-input .star.on{color:#f5a623}
+.stars-input .star:active{transform:scale(.9)}
+
+/* ---------- Прогресс сделки ---------- */
+.progress{display:flex;align-items:center;gap:4px;margin:12px 0 16px}
+.progress-step{flex:1;text-align:center;font-size:10px;color:var(--muted)}
+.progress-dot{
+  height:4px;border-radius:2px;background:var(--line);margin-bottom:6px;
+}
+.progress-step.is-done .progress-dot{background:var(--primary)}
+.progress-step.is-now .progress-dot{background:var(--ok)}
+.progress-step.is-now{color:var(--text);font-weight:700}
+
+.big-amount{
+  display:flex;align-items:center;gap:13px;
+  background:linear-gradient(135deg,var(--card),var(--card-2));
+}
+.big-amount .cur{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;font-size:18px;color:#fff;flex:0 0 auto;
+}
+.big-amount .val{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.big-amount .muted{font-size:12px;margin-top:2px}
+
+.now{
+  border-left:3px solid var(--primary);
+  background:var(--card);border-radius:0 13px 13px 0;padding:13px;margin:12px 0;
+}
+.now b{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.now p{margin:0;font-size:14px}
+
+.manager-line{color:var(--muted);font-size:13px;text-align:center;margin:12px 0}
+.empty{text-align:center;color:var(--muted);padding:30px 10px;font-size:14px}
+.demo-note{
+  font-size:12px;color:var(--muted);text-align:center;
+  background:var(--card-2);border-radius:10px;padding:9px;margin-bottom:14px;
+}
+
+/* ---------- Нижняя навигация ---------- */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:45;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(11,13,20,.95);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tab{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:9px 4px;background:none;border:0;
+  color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;
+}
+.tab svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab.is-active{color:var(--primary-2)}
+
+/* ---------- Шторка ---------- */
+.overlay{position:fixed;inset:0;background:rgba(4,6,12,.62);z-index:50}
+.sheet{
+  --kb:0px;
+  position:fixed;left:0;right:0;bottom:var(--kb);z-index:60;
+  background:var(--bg-soft);
+  border-top:1px solid var(--line);
+  border-radius:20px 20px 0 0;
+  padding:8px 16px calc(20px + env(safe-area-inset-bottom));
+  max-height:calc(100vh - var(--kb));overflow-y:auto;
+  transition:bottom .16s ease,max-height .16s ease;
+  animation:up .22s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.grabber{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px}
+.sheet-head .title{margin:0}
+.step{display:none}
+.step.is-active{display:block}
+
+/* ---------- Тост ---------- */
+.toast{
+  position:fixed;left:50%;bottom:96px;transform:translateX(-50%);
+  background:rgba(23,28,40,.96);color:#fff;
+  padding:13px 17px;border-radius:13px;font-size:14px;line-height:1.4;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  z-index:80;max-width:88%;text-align:center;
+}
+
+@media (min-width:560px){
+  .sheet{max-width:520px;left:50%;transform:translateX(-50%);border-radius:20px;bottom:20px}
+  @keyframes up{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+}.deal-act{width:auto;padding:9px 16px;font-size:13px;flex:0 0 auto}
+
+/* ---------- Хэллоуин ---------- */
+.spooky{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.web{position:absolute;color:rgba(167,139,250,.16)}
+.web-tl{top:52px;left:0;width:132px;height:132px;transform:rotate(180deg)}
+.web-br{bottom:64px;right:0;width:132px;height:132px}
+
+.pumpkin{
+  position:absolute;font-size:22px;opacity:.16;
+  filter:saturate(.9);
+}
+.p1{top:78px;left:6%;animation:drift 13s ease-in-out infinite}
+.p2{top:190px;right:8%;font-size:17px;animation:drift 17s ease-in-out infinite reverse}
+.p3{top:320px;left:14%;font-size:14px;opacity:.12;animation:drift 21s ease-in-out infinite}
+
+@keyframes drift{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-14px) rotate(5deg)}
+}
+
+.banner-web{
+  position:absolute;top:0;right:0;width:110px;height:100%;
+  color:rgba(255,255,255,.22);z-index:1;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .p1,.p2,.p3{animation:none}
+}
+
+/* ---------- Узкие экраны (телефон) ---------- */
+@media (max-width:420px){
+  .topbar{gap:8px;padding-left:12px;padding-right:12px}
+  .brand-name{display:none}          /* освобождает место под поиск */
+  .search{height:36px}
+  .top-btn{width:34px;height:34px}
+  .topbar-actions{gap:5px}
+
+  .screen{padding:14px 12px 8px}
+  .cats{margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px}
+
+  .banner{padding:15px;min-height:92px}
+  .banner-title{font-size:16px;gap:8px}
+  .banner-ic{width:30px;height:30px}
+  .banner-ic svg{width:17px;height:17px}
+  /* шар меньше, текст ему не уступает */
+  .banner-ball{width:46px;height:46px;right:12px}
+  .banner-ball svg{width:21px;height:21px}
+  .banner-ball.banner-pumpkin{font-size:21px}
+  .banner-sub{font-size:12px;margin-top:5px}
+  /* текст не заезжает под шар */
+  .banner-inner{padding-right:52px}
+
+  .deal{padding:10px;gap:10px}
+  .deal-thumb{width:60px;height:60px;font-size:25px}
+  .deal-title{font-size:14px;margin-bottom:7px}
+  .deal-tiles{gap:6px;margin-bottom:9px}
+  .tile{padding:6px 8px}
+  .tile-v{font-size:12px}
+}
+
+@media (max-width:360px){
+  .brand{display:none}
+  .banner-inner{padding-right:48px}
+  .banner-title{font-size:15px}
+}
+
+/* ---------- Ползунок прокрутки категорий ---------- */
+.cats-scroll{position:relative}
+.cats-scrollbar{
+  position:relative;height:3px;margin:0 12px 6px;
+  background:rgba(255,255,255,.06);border-radius:2px;
+  cursor:pointer;touch-action:none;
+}
+.cats-thumb{
+  position:absolute;top:0;left:0;height:100%;width:40px;
+  background:linear-gradient(90deg,#3b82f6,#60a5fa);
+  border-radius:2px;
+  transition:transform .18s ease,width .18s ease;
+}
+.cats-thumb.is-drag{transition:none}
+/* убираем системный скроллбар — рисуем свой */
+.cats{scrollbar-width:none;-ms-overflow-style:none}
+.cats::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* ---------- Аватар: Halloween ---------- */
+.top-avatar,.profile-avatar{
+  background:linear-gradient(140deg,#7c3aed,#ea580c 55%,#f59e0b);
+  box-shadow:0 0 0 2px rgba(249,115,22,.35),0 0 14px rgba(234,88,12,.45);
+}
+.top-avatar{
+  font-size:15px;
+  background:linear-gradient(140deg,#7c3aed,#ea580c);
+}
