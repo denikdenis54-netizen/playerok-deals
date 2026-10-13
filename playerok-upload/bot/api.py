@@ -156,6 +156,7 @@ def create_app(database: Database, service: Service) -> web.Application:
 
     # --- Конфиг интерфейса ---
     async def get_config(request: web.Request) -> web.Response:
+        total_deals = await database.count_deals()
         return web.json_response(
             {
                 "ok": True,
@@ -170,13 +171,13 @@ def create_app(database: Database, service: Service) -> web.Application:
                 "bot_link": config.bot_link,
                 "site": "Playerok.com",
                 "demo": service.demo,
-                # Рейтинг по первым 5 реальным сделкам, проведённым до того,
-                # как площадка легла. Отзывы внутри бота выключены, поэтому
-                # это историческая цифра, а не накопительная.
+                # Рейтинг площадки. Отзывы внутри бота выключены, поэтому
+                # оценки не накапливаются: это одна фиксированная цифра.
+                # Сколько сделок она охватывает — считается по базе.
                 "archived_rating": {
-                    "rating": 4.2,
-                    "deals": 5,
-                    "label": "Рейтинг по первым 5 сделкам",
+                    "rating": 4.5,
+                    "deals": total_deals,
+                    "label": "Общий рейтинг",
                 },
             }
         )

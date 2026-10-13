@@ -218,6 +218,16 @@ class Database:
         avg = float(row["avg_score"] or 0.0)
         return {"rating": round(avg, 1), "stars": int(round(avg)), "count": int(row["total"] or 0)}
 
+    async def count_deals(self) -> int:
+        """Сколько всего сделок прошло через сервис.
+
+        Считается по таблице, а не хранится константой: цифра рядом
+        с рейтингом должна отражать реальную историю.
+        """
+        cur = await self.db.execute("SELECT COUNT(*) AS total FROM deals")
+        row = await cur.fetchone()
+        return int(row["total"] or 0)
+
     async def set_status(self, deal_id: int, status: str, provider_ref: str | None = None) -> None:
         row = await self.get_deal(deal_id)
         if row is None:

@@ -135,13 +135,11 @@
   // Сделки на главной: показываем активные, поиск фильтрует по названию.
   async function loadHomeDeals() {
     const box = $('#homeList');
-    const empty = $('#homeEmpty');
     if (!box) return;
     try {
       const { deals } = await api('/api/deals?scope=all');
       state.homeDeals = deals || [];
       renderHomeDeals();
-      if (empty) empty.hidden = (state.homeDeals.length > 0);
     } catch (err) {
       box.innerHTML = `<div class="empty">${escapeHtml(err.message)}</div>`;
     }
@@ -159,11 +157,6 @@
     $$('.deal', box).forEach((node) => {
       node.addEventListener('click', () => openDeal(Number(node.dataset.id)));
     });
-    const empty = $('#homeEmpty');
-    if (empty) {
-      empty.hidden = list.length > 0;
-      empty.textContent = q ? 'Ничего не найдено' : 'Пока нет сделок';
-    }
   }
 
   // ---------- Экраны: списки ----------
@@ -564,15 +557,28 @@
   }
 
   // Рейтинг по первым 5 сделкам, проведённым до паузы площадки.
-  // Отзывы внутри бота выключены, поэтому цифра историческая:
-  // новых оценок не добавится, и накопительным рейтингом не выглядит.
+  // Отзывы внутри бота выключены, поэтому цифра одна и фиксированная:
+// новых оценок не добавится, и накопительным рейтингом не выглядит.
+  function starRow(value) {
+    const full = Math.floor(value);
+    const frac = value - full;
+    return Array.from({ length: 5 }, (_, i) => {
+      if (i < full) return '<i class="on">★</i>';
+      // дробная часть — заливка звезды на нужный процент
+      if (i === full && frac >= 0.25) {
+        return `<i class="half" style="--pct:${Math.round(frac * 100)}%">★</i>`;
+      }
+      return '<i>★</i>';
+    }).join('');
+  }
+
   function renderArchivedRating() {
     const a = state.config?.archived_rating;
     const box = $('#archivedRating');
     if (!a || !box) return;
-    $('#archivedNum').textContent = Number(a.rating).toFixed(1);
-    $('#archivedStars').innerHTML = Array.from({ length: 5 }, (_, i) =>
-      `<i class="${i < Math.round(a.rating) ? 'on' : ''}">★</i>`).join('');
+    const value = Number(a.rating) || 0;
+    $('#archivedNum').textContent = value.toFixed(1);
+    $('#archivedStars').innerHTML = starRow(value);
     $('#archivedLabel').textContent = a.label || '';
     box.hidden = false;
   }
@@ -1068,10 +1074,6 @@
       const { balances, frozen } = await api('/api/wallets');
       state.balances = balances;
       state.frozen = frozen || {};
-
-      // Оформление — необязательные элементы, их отсутствие не должно ломать форму
-      const note = $('#demoNote');
-      if (note) note.hidden = !state.config.demo;
 
       const mgrBtn = $('#managerBtn');
       if (mgrBtn) {
